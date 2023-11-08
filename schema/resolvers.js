@@ -7,15 +7,19 @@ const REFRESH_SECRET_KEY = 'REFRESHSECRETKEY';
 
 const resolvers = {
     Query: {
-        users:()=>{
+        users:(parent,args,context)=>{
+            console.log(context,'query');
+            if(!context.user){
+                return null
+            }
             return UserList;
-        },
+        }, 
      },
 
     Mutation:{
-        login: async(parent,args)=>{
+        login: async(parent,args,context)=>{
+            console.log(context,'in mutaion');
             const { username } = args;
-            console.log(username);   
 
             const accessToken = jwt.sign({ username }, SECRET_KEY, { expiresIn: '15min' });
             const refreshToken = jwt.sign({ username }, REFRESH_SECRET_KEY, { expiresIn: '15d' }); 

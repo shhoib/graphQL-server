@@ -15,7 +15,7 @@ type User{
         user(id: ID!) : User!
     }
     type Mutation {
-        login(username: String!): User
+        login(username: String): User
     }
 `
 
