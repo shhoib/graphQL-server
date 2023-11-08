@@ -6,6 +6,7 @@ const app = express();
 const axios = require('axios')
 const {typeDefs} = require('./schema/typeDefs')
 const {resolvers} = require('./schema/resolvers')
+const {authenticateToken} = require('./middleware/authToken')
 
 
 const startServer = async()=>{
@@ -19,7 +20,7 @@ const startServer = async()=>{
     app.use(express.urlencoded({ limit: "30mb", extended: true }));
 
     await server.start()
-    app.use('/graphql',expressMiddleware(server))
+    app.use('/graphql',authenticateToken,expressMiddleware(server))
 
     app.listen(8080 ,()=> console.log('server started'));
 }
